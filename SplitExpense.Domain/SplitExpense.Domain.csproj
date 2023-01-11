@@ -6,4 +6,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Core\Errors\" />
+    <Folder Include="Core\Primitives\Result\" />
+    <Folder Include="Entities\" />
+    <Folder Include="ValueObjects\" />
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
 </Project>

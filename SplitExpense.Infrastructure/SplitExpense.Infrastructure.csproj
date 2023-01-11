@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Authentication\" />
+    <Folder Include="Common\" />
+    <Folder Include="Cryptography\" />
+  </ItemGroup>
+
 </Project>
