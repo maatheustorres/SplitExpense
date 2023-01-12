@@ -18,7 +18,7 @@ public sealed class FirstName : ValueObject
     {
         if(firstName is null)
         {
-            return Result.Failure<FirstName>(DomainErrors.FirstName.NullOrEmpty)
+            return Result.Failure<FirstName>(DomainErrors.FirstName.NullOrEmpty);
         }
 
         if(firstName.Length > MaxLength)

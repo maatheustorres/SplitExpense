@@ -4,6 +4,10 @@ namespace SplitExpense.Domain.Core.Errors;
 
 public static class DomainErrors
 {
+    public static class User
+    {
+        public static readonly Error DuplicateEmail = new("User.DuplicateEmail", "The specified email is already in use.");
+    }
     public static class FirstName
     {
         public static Error NullOrEmpty => new("FirstName.NullOrEmpty", "The first name is required");
