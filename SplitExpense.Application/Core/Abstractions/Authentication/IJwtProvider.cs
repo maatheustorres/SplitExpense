@@ -5,5 +5,5 @@ namespace SplitExpense.Application.Core.Abstractions.Authentication;
 
 public interface IJwtProvider
 {
-    string Create(User user)
+    string Create(User user);
 }

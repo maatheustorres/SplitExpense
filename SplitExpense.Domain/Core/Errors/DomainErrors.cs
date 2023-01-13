@@ -8,6 +8,13 @@ public static class DomainErrors
     {
         public static readonly Error DuplicateEmail = new("User.DuplicateEmail", "The specified email is already in use.");
     }
+
+    public static class Name
+    {
+        public static Error NullOrEmpty => new("Name.NullOrEmpty", "The name is required");
+        public static Error LongerThanAllowed => new("Name.LongerThanAllowed", "The name is longer than allowed.");
+    }
+
     public static class FirstName
     {
         public static Error NullOrEmpty => new("FirstName.NullOrEmpty", "The first name is required");

@@ -6,7 +6,7 @@ public sealed class User : AggregateRoot
 {
     private string _passwordHash;
 
-    public User(FirstName firstName, LastName lastName, Email email, string passwordHash)
+    private User(FirstName firstName, LastName lastName, Email email, string passwordHash)
         : base(Guid.NewGuid())
     {
         FirstName = firstName;
@@ -15,12 +15,15 @@ public sealed class User : AggregateRoot
         _passwordHash = passwordHash;
     }
 
+    private User() { }
+
     public FirstName FirstName { get; private set; }
     public LastName LastName { get; private set; }
 
     public string FullName => $"{FirstName} {LastName}";
     public Email Email { get; private set; }
     public DateTime CreatedOnUtc { get; set; }
+    public IList<UserGroup> UserGroup { get; set; }
 
     public static User Create(FirstName firstName, LastName lastName, Email email, string passwordHash)
     {
