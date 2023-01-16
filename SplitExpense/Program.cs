@@ -1,6 +1,15 @@
+using SplitExpense.Application;
+using SplitExpense.Infrastructure;
+using SplitExpense.Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services
+    .AddApplication()
+    .AddInfrastructure(builder.Configuration)
+    .AddPersistence(builder.Configuration);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -21,5 +30,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors(b => b.WithOrigins("*", "*", "*").AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
 app.Run();
