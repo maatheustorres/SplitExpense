@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using SplitExpense.Application.Core.Abstractions.Data;
+using SplitExpense.Contracts.Group;
 using SplitExpense.Domain.Core.Errors;
 using SplitExpense.Domain.Core.Primitives.Result;
 using SplitExpense.Domain.Entities;
@@ -7,9 +8,9 @@ using SplitExpense.Domain.Enumerations;
 using SplitExpense.Domain.Repositories;
 using SplitExpense.Domain.ValueObjects;
 
-namespace SplitExpense.Application.Group.Commands.Create;
+namespace SplitExpense.Application.Groups.Commands.Create;
 
-public sealed class CreateGroupoCommandHandler : IRequestHandler<CreateGroupCommand, Result>
+public sealed class CreateGroupoCommandHandler : IRequestHandler<CreateGroupCommand, ResultT<GroupResponse>>
 {
     private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -22,35 +23,35 @@ public sealed class CreateGroupoCommandHandler : IRequestHandler<CreateGroupComm
         _groupRepository = groupRepository;
     }
 
-    public async Task<Result> Handle(CreateGroupCommand request, CancellationToken cancellationToken)
+    public async Task<ResultT<GroupResponse>> Handle(CreateGroupCommand request, CancellationToken cancellationToken)
     {
         User user = await _userRepository.GetByIdAsync(request.UserId);
 
         if(user is null)
         {
-            return Result.Failure(DomainErrors.User.NotFound);
+            return Result.Failure<GroupResponse>(DomainErrors.User.NotFound);
         }
 
         Category category = Category.FromValue(request.CategoryId);
 
         if (category is null)
         {
-            return Result.Failure(DomainErrors.Category.NotFound);
+            return Result.Failure<GroupResponse>(DomainErrors.Category.NotFound);
         }
 
         ResultT<Name> nameResult = Name.Create(request.Name);
 
         if (nameResult.IsFailure)
         {
-            return Result.Failure(nameResult.Error);
+            return Result.Failure<GroupResponse>(nameResult.Error);
         }
 
-        var group = Domain.Entities.Group.Create(nameResult.Value, category);
+        var group = Group.Create(nameResult.Value, category);
 
         _groupRepository.Insert(group);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result.Success();
+        return Result.Success(new GroupResponse(group.Id));
     }
 }

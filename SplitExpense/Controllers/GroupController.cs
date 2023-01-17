@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SplitExpense.Application.Group.Commands.Create;
+using SplitExpense.Application.Groups.Commands.Create;
 using SplitExpense.Contracts.Group;
 
 namespace SplitExpense.Controllers
@@ -26,7 +26,7 @@ namespace SplitExpense.Controllers
 
             if (result.IsSuccess)
             {
-                return Ok();
+                return Ok(result.Value);
             }
 
             return BadRequest(result.Error);
