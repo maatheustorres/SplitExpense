@@ -28,7 +28,7 @@ public abstract class Enumeration<TEnum> : IEquatable<Enumeration<TEnum>>, IComp
 
     public static TEnum? FromValue(int value) => EnumerationsDictionary.Value.TryGetValue(value, out TEnum enumeration)
         ? enumeration
-        : default;
+        : null;
 
     public static bool ContainsValue(int value) => EnumerationsDictionary.Value.ContainsKey(value);
 

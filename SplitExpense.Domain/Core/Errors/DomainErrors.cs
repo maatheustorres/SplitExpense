@@ -7,6 +7,7 @@ public static class DomainErrors
     public static class User
     {
         public static readonly Error DuplicateEmail = new("User.DuplicateEmail", "The specified email is already in use.");
+        public static readonly Error NotFound = new("User.NotFound", "The user with the specified identifier was not found.");
     }
 
     public static class Name
@@ -62,5 +63,10 @@ public static class DomainErrors
         public static Error InvalidEmailOrPassword => new(
             "Authentication.InvalidEmailOrPassword",
             "The specified email or password are incorrect.");
+    }
+
+    public static class Category
+    {
+        public static Error NotFound => new Error("Category.NotFound", "The category with the specified identifier was not found.");
     }
 }

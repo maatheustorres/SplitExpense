@@ -29,6 +29,8 @@ internal sealed class GroupNameConfiguration : IEntityTypeConfiguration<Group>
             categoryBuilder.Property(group => group.Value)
                 .HasColumnName("Category")
                 .IsRequired();
+
+            categoryBuilder.Ignore(category => category.Name);
         });
 
         builder.Property(groupName => groupName.CreatedOnUtc).HasColumnName("CreatedOn").IsRequired();

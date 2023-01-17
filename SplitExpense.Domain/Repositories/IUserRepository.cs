@@ -8,4 +8,5 @@ public interface IUserRepository
     Task<bool> IsEmailUniqueAsync(Email email);
     void Insert(User user);
     Task<User> GetByEmailAsync(Email email);
+    Task<User> GetByIdAsync(Guid userId);
 }
