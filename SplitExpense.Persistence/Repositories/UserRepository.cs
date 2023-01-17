@@ -12,4 +12,5 @@ internal sealed class UserRepository : GenericRepository<User>, IUserRepository
         : base(dbContext) { }
 
     public async Task<bool> IsEmailUniqueAsync(Email email) => !await AnyAsync(new UserWithEmailSpecification(email));
+    public async Task<User> GetByEmailAsync(Email email) => await FirstOrDefaultAsync(new UserWithEmailSpecification(email));
 }

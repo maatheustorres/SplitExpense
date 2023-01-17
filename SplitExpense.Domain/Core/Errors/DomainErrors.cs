@@ -56,4 +56,11 @@ public static class DomainErrors
             "Password.MissingNonAlphaNumeric",
             "The password requires at least one non-alphanumeric.");
     }
+
+    public static class Authentication
+    {
+        public static Error InvalidEmailOrPassword => new(
+            "Authentication.InvalidEmailOrPassword",
+            "The specified email or password are incorrect.");
+    }
 }

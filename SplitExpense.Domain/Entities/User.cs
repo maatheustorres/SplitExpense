@@ -1,4 +1,5 @@
 ﻿using SplitExpense.Domain.Core.Primitives;
+using SplitExpense.Domain.Services;
 using SplitExpense.Domain.ValueObjects;
 
 namespace SplitExpense.Domain.Entities;
@@ -28,4 +29,7 @@ public sealed class User : AggregateRoot
     {
         return new User(firstName, lastName, email, passwordHash);
     }
+
+    public bool VerifyPasswordHash(string password, IPasswordHashChecker passwordHashChecker)
+        => password is not null && passwordHashChecker.HashesMatch(_passwordHash, password);
 }
