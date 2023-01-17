@@ -8,6 +8,9 @@ internal sealed class UserGroupConfiguration : IEntityTypeConfiguration<UserGrou
 {
     public void Configure(EntityTypeBuilder<UserGroup> builder)
     {
+        builder.ToTable("UserGroup");
+        builder.HasNoKey();
+
         builder.HasOne<User>()
             .WithMany()
             .HasForeignKey(u => u.UserId)

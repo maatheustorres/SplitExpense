@@ -30,7 +30,7 @@ internal sealed class JwtProvider : IJwtProvider
         Claim[] claims =
         {
             new Claim("userId", user.Id.ToString()),
-            new Claim("email", user.Email),
+            new Claim("email", user.Email.Value),
             new Claim("name", user.FullName)
         };
 

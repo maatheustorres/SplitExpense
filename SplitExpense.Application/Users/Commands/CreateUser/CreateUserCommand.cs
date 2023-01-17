@@ -8,6 +8,4 @@ public sealed record CreateUserCommand(
     string FirstName,
     string LastName,
     string Email,
-    string Password,
-    string Cpf,
-    string Rg) : IRequest<ResultT<AuthenticationResponse>>;
+    string Password) : IRequest<ResultT<AuthenticationResponse>>;

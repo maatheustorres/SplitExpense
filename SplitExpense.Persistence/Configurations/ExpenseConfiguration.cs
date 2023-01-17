@@ -8,9 +8,10 @@ internal sealed class ExpenseConfiguration : IEntityTypeConfiguration<Expense>
 {
     public void Configure(EntityTypeBuilder<Expense> builder)
     {
+        builder.ToTable("Expense");
         builder.HasKey(x => x.Id);  
 
-        builder.Property(x => x.TotalExpense).IsRequired();
+        builder.Property(x => x.TotalExpense).HasColumnName("TotalExpense").IsRequired();
 
         builder.HasOne<User>()
             .WithMany()

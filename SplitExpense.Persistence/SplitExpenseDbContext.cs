@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using SplitExpense.Application.Core.Abstractions.Common;
 using SplitExpense.Application.Core.Abstractions.Data;
 using SplitExpense.Domain.Core.Primitives;
@@ -11,14 +10,9 @@ namespace SplitExpense.Persistence;
 
 public sealed class SplitExpenseDbContext : DbContext, IDbContext, IUnitOfWork
 {
-    private readonly IDateTime _dateTime;
-    private readonly IMediator _mediator;
-
-    public SplitExpenseDbContext(DbContextOptions options, IDateTime dateTime, IMediator mediator)
+    public SplitExpenseDbContext(DbContextOptions options)
         : base(options)
     {
-        _dateTime = dateTime;
-        _mediator = mediator;
     }
 
     public new DbSet<TEntity> Set<TEntity>()
@@ -39,7 +33,7 @@ public sealed class SplitExpenseDbContext : DbContext, IDbContext, IUnitOfWork
         where TEntity : Entity
         => Set<TEntity>().AddRange(entities);
 
-    public void Remove<TEntity>(TEntity entity) 
+    public new void Remove<TEntity>(TEntity entity) 
         where TEntity : Entity
         => Set<TEntity>().Remove(entity);
 
@@ -52,9 +46,6 @@ public sealed class SplitExpenseDbContext : DbContext, IDbContext, IUnitOfWork
     {
         return await base.SaveChangesAsync(cancellationToken);
     }
-
-    public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
-        => Database.BeginTransactionAsync(cancellationToken);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

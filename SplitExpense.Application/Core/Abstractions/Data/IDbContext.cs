@@ -21,5 +21,4 @@ public interface IDbContext
     void Remove<TEntity>(TEntity entity)
         where TEntity : Entity;
 
-    Task<int> ExecuteSqlAsync(string sql, IEnumerable<SqlParameter> parameters, CancellationToken cancellationToken = default);
 }

@@ -9,6 +9,7 @@ internal sealed class GroupNameConfiguration : IEntityTypeConfiguration<Group>
 {
     public void Configure(EntityTypeBuilder<Group> builder)
     {
+        builder.ToTable("GroupName");
         builder.HasKey(x => x.Id);
 
         builder.OwnsOne(groupName => groupName.Name, nameBuilder =>
@@ -16,6 +17,7 @@ internal sealed class GroupNameConfiguration : IEntityTypeConfiguration<Group>
             nameBuilder.WithOwner();
 
             nameBuilder.Property(group => group.Value)
+                .HasColumnName("Name")
                 .HasMaxLength(Name.MaxLength)
                 .IsRequired();
         });
@@ -25,9 +27,13 @@ internal sealed class GroupNameConfiguration : IEntityTypeConfiguration<Group>
             categoryBuilder.WithOwner();
 
             categoryBuilder.Property(group => group.Value)
+                .HasColumnName("Category")
                 .IsRequired();
         });
 
-        builder.Property(groupName => groupName.CreatedOnUtc).IsRequired();
+        builder.Property(groupName => groupName.CreatedOnUtc).HasColumnName("CreatedOn").IsRequired();
+
+        builder.Ignore(user => user.UserGroup);
+
     }
 }

@@ -5,6 +5,6 @@ namespace SplitExpense.Domain.Repositories;
 
 public interface IUserRepository
 {
-    Task<bool> IsEmailUniqueAsync(Email value);
+    Task<bool> IsEmailUniqueAsync(Email email);
     void Insert(User user);
 }

@@ -2,7 +2,9 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SplitExpense.Application.Core.Abstractions.Data;
+using SplitExpense.Domain.Repositories;
 using SplitExpense.Persistence.Infrastructure;
+using SplitExpense.Persistence.Repositories;
 
 namespace SplitExpense.Persistence;
 
@@ -18,7 +20,9 @@ public static class DependencyInjection
 
         services.AddScoped<IDbContext>(serviceProvider => serviceProvider.GetRequiredService<SplitExpenseDbContext>());
 
-        services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<SplitExpenseDbContext>()); 
+        services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<SplitExpenseDbContext>());
+
+        services.AddScoped<IUserRepository, UserRepository>();
 
         return services;
     }

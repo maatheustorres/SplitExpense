@@ -22,7 +22,6 @@ public sealed class User : AggregateRoot
 
     public string FullName => $"{FirstName} {LastName}";
     public Email Email { get; private set; }
-    public DateTime CreatedOnUtc { get; set; }
     public IList<UserGroup> UserGroup { get; set; }
 
     public static User Create(FirstName firstName, LastName lastName, Email email, string passwordHash)
