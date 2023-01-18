@@ -52,6 +52,13 @@ public sealed class CreateGroupoCommandHandler : IRequestHandler<CreateGroupComm
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result.Success(new GroupResponse(group.Id));
+        return Result.Success(new GroupResponse
+        {
+            Id = group.Id,
+            Name = group.Name.Value,
+            CategoryId = group.Category.Value,
+            Category = group.Category.Name,
+            CreatedOnUtc = group.CreatedOnUtc
+        }); ;
     }
 }

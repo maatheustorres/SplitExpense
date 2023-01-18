@@ -2,6 +2,9 @@
 
 public class GroupResponse
 {
-    public GroupResponse(Guid id) => Id = id;
-    public Guid Id { get; }
+    public Guid Id { get; set; }
+    public string Name { get; set; }
+    public int CategoryId { get; set; }
+    public string Category { get; set; }
+    public DateTime CreatedOnUtc { get; set; }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SplitExpense.Application.Groups.Commands.AddUser;
 using SplitExpense.Application.Groups.Commands.Create;
+using SplitExpense.Application.Groups.Queries.GetGroupsByUserId;
 using SplitExpense.Contracts.Group;
 
 namespace SplitExpense.Controllers
@@ -16,6 +17,21 @@ namespace SplitExpense.Controllers
         public GroupController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpGet("userId/{userId}")]
+        public async Task<IActionResult> GetGroupsByUserId(Guid userId, int page, int pageSize)
+        {
+            var command = new GetGroupsByUserIdQuery(userId, page, pageSize);
+
+            var result = await _mediator.Send(command);
+
+            if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+
+            return BadRequest(result.Error);
         }
 
         [HttpPost("Create")]
