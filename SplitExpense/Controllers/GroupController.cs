@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SplitExpense.Application.Groups.Commands.AddUser;
 using SplitExpense.Application.Groups.Commands.Create;
+using SplitExpense.Application.Groups.Commands.UpdateGroupName;
 using SplitExpense.Application.Groups.Queries.GetGroupsByUserId;
 using SplitExpense.Contracts.Group;
 
@@ -59,6 +60,21 @@ namespace SplitExpense.Controllers
             if(result.IsSuccess)
             {
                 return Ok(result.Value);
+            }
+
+            return BadRequest(result.Error);
+        }
+
+        [HttpPut("update/{groupId}")]
+        public async Task<IActionResult> Update(Guid groupId, UpdateGroupRequest updateGroupRequest)
+        {
+            var command = new UpdateGroupNameCommand(groupId, updateGroupRequest.Name);
+
+            var result = await _mediator.Send(command);
+
+            if (result.IsSuccess)
+            {
+                return Ok();
             }
 
             return BadRequest(result.Error);

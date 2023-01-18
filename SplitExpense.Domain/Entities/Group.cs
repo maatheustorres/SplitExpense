@@ -25,4 +25,9 @@ public sealed class Group : AggregateRoot
     {
         return new Group(name, category, DateTime.UtcNow);
     }
+
+    public void ChangeName(Name name)
+    {
+        Name = name;
+    }
 }
