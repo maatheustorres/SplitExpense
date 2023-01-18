@@ -67,6 +67,12 @@ public static class DomainErrors
 
     public static class Category
     {
-        public static Error NotFound => new Error("Category.NotFound", "The category with the specified identifier was not found.");
+        public static Error NotFound => new("Category.NotFound", "The category with the specified identifier was not found.");
+    }
+
+    public static class Group
+    {
+        public static Error NotFound => new("Group.NotFound", "The group with the specified identifier was not found.");
+        public static Error AlreadyAdded => new("Group.AlreadyAdded", "The user(s) has already been added");
     }
 }

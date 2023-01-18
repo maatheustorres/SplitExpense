@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SplitExpense.Application.Groups.Commands.AddUser;
 using SplitExpense.Application.Groups.Commands.Create;
 using SplitExpense.Contracts.Group;
 
@@ -25,6 +26,21 @@ namespace SplitExpense.Controllers
             var result = await _mediator.Send(command);
 
             if (result.IsSuccess)
+            {
+                return Ok(result.Value);
+            }
+
+            return BadRequest(result.Error);
+        }
+
+        [HttpPost("add")] 
+        public async Task<IActionResult> AddUser(AddUserRequest addUserRequest)
+        {
+            var command = new AddUserCommand(addUserRequest.GroupId, addUserRequest.Emails);
+
+            var result = await _mediator.Send(command);
+
+            if(result.IsSuccess)
             {
                 return Ok(result.Value);
             }

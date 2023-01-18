@@ -9,4 +9,5 @@ public interface IUserRepository
     void Insert(User user);
     Task<User> GetByEmailAsync(Email email);
     Task<User> GetByIdAsync(Guid userId);
+    Task<IReadOnlyCollection<User>> GetUsersByEmailsAsync(IReadOnlyCollection<Email> emails);
 }
