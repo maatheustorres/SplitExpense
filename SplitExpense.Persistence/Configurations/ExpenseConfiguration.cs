@@ -15,16 +15,10 @@ internal sealed class ExpenseConfiguration : IEntityTypeConfiguration<Expense>
 
         builder.Property(x => x.Paid).HasColumnName("Paid").IsRequired();
 
-        builder.HasOne<User>()
+        builder.HasOne<UserGroup>()
             .WithMany()
-            .HasConstraintName("FK_USER")
-            .HasForeignKey(u => u.UserId)
-            .IsRequired();
-        
-        builder.HasOne<Group>()
-            .WithMany()
-            .HasConstraintName("FK_GROUP")
-            .HasForeignKey(u => u.GroupId)
+            .HasConstraintName("FK_USER_GROUP_EXPENSE")
+            .HasForeignKey(u => u.UserGroupId)
             .IsRequired();
     }
 }

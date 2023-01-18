@@ -1,9 +1,12 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SplitExpense.Application.Users.Queries.GetUserById;
+using SplitExpense.Application.Users.Queries.GetUsersByGroupId;
 
 namespace SplitExpense.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class UserController : ControllerBase
@@ -23,6 +26,21 @@ public class UserController : ControllerBase
         var result = await _mediator.Send(query);
 
         if(result.IsSuccess)
+        {
+            return Ok(result.Value);
+        }
+
+        return BadRequest(result.Error);
+    }
+
+    [HttpGet("usersByGroup/{groupId}")]
+    public async Task<IActionResult> GetUsersByGroup(Guid groupId)
+    {
+        var query = new GetUsersByGroupIdQuery(groupId);
+
+        var result = await _mediator.Send(query);
+
+        if (result.IsSuccess)
         {
             return Ok(result.Value);
         }
