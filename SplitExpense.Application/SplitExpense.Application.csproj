@@ -13,7 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Users\Queries\" />
+    <Folder Include="Expense\Commands\" />
+    <Folder Include="Expense\Queries\" />
   </ItemGroup>
 
   <ItemGroup>
