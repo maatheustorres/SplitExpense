@@ -59,6 +59,6 @@ public sealed class CreateGroupoCommandHandler : IRequestHandler<CreateGroupComm
             CategoryId = group.Category.Value,
             Category = group.Category.Name,
             CreatedOnUtc = group.CreatedOnUtc
-        }); ;
+        });
     }
 }

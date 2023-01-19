@@ -30,4 +30,9 @@ public sealed class Group : AggregateRoot
     {
         Name = name;
     }
+
+    public static UserGroup AddUserToGroup(User user, Group group)
+    {
+        return new UserGroup(user, group);
+    }
 }

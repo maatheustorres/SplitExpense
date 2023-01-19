@@ -66,11 +66,7 @@ public sealed class AddUserCommandHandler : IRequestHandler<AddUserCommand, Resu
         var usersGroup = new List<UserGroup>();
         foreach (var user in users)
         {
-            var userGroup = new UserGroup()
-            {
-                UserId = user.Id,
-                GroupId = group.Id
-            };
+            UserGroup userGroup = Group.AddUserToGroup(user, group);
 
             if (await _userGroupRepository.CheckIfAdded(userGroup))
             {
