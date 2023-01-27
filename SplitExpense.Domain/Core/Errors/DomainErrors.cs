@@ -7,8 +7,9 @@ public static class DomainErrors
     public static class User
     {
         public static readonly Error DuplicateEmail = new("User.DuplicateEmail", "The specified email is already in use.");
-        public static readonly Error NotFound = new("User.NotFound", "The user with the specified identifier was not found.");
         public static readonly Error InvalidPermissions = new("User.InvalidPermissions", "The current user does not have the permissions to perform that operation.");
+        public static readonly Error NotFound = new("User.NotFound", "The user with the specified identifier was not found.");
+        public static readonly Error NullOrEmpty = new("User.NullOrEmpty", "The user is required");
     }
 
     public static class Name
@@ -81,5 +82,7 @@ public static class DomainErrors
     public static class Expense
     {
         public static Error InvalidExpense => new("Expense.InvalidExpense", "Expense amount must be greater than zero");
+        public static Error NotFound => new("Expense.NotFound", "The expense with the specified identifier was not found.");
+        public static Error AlreadyAdded => new("Group.AlreadyAdded", "The user(s) has already been added");
     }
 }

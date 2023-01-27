@@ -17,6 +17,7 @@ internal sealed class ExpenseConfiguration : IEntityTypeConfiguration<Expense>
 
             totalExpenseBuilder.Property(totalExpense => totalExpense.Value)
                 .HasColumnName("TotalExpense")
+                .HasColumnType("decimal(18,2)")
                 .IsRequired();
         });
 
@@ -27,5 +28,6 @@ internal sealed class ExpenseConfiguration : IEntityTypeConfiguration<Expense>
             .HasConstraintName("FK_USER_GROUP_EXPENSE")
             .HasForeignKey(u => u.UserGroupId)
             .IsRequired();
+
     }
 }

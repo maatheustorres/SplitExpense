@@ -10,5 +10,5 @@ internal class UserGroupRepository : GenericRepository<UserGroup>, IUserGroupRep
     public UserGroupRepository(IDbContext dbContext) 
         : base(dbContext) { }
 
-    public async Task<bool> CheckIfAdded(UserGroup userGroup) => await AnyAsync(new UsersGroupSpecification(userGroup));
+    public async Task<bool> CheckIfAddedToGroup(UserGroup userGroup) => await AnyAsync(new UsersGroupSpecification(userGroup));
 }

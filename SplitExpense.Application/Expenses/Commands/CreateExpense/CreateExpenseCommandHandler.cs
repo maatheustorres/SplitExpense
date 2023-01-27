@@ -52,7 +52,7 @@ public sealed class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseC
 
         UserGroup userGroup = Group.AddUserToGroup(user, group);
 
-        if (!await _userGroupRepository.CheckIfAdded(userGroup))
+        if (!await _userGroupRepository.CheckIfAddedToGroup(userGroup))
         {
             return Result.Failure(DomainErrors.User.InvalidPermissions);
         }

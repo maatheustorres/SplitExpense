@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Expenses\Queries\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\SplitExpense.Contracts\SplitExpense.Contracts.csproj" />
     <ProjectReference Include="..\SplitExpense.Domain\SplitExpense.Domain.csproj" />
   </ItemGroup>

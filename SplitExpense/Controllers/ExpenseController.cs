@@ -1,7 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SplitExpense.Application.Expenses.Commands.AddUserToExpense;
 using SplitExpense.Application.Expenses.Commands.CreateExpense;
+using SplitExpense.Application.Expenses.Queries.GetExpensesByGroupId;
 using SplitExpense.Contracts.Expense;
 
 namespace SplitExpense.Controllers;
@@ -17,6 +19,21 @@ public class ExpenseController : ControllerBase
         _mediator = mediator;
     }
 
+    [HttpGet("{groupId}")]
+    public async Task<IActionResult> GetExpensesByGroupId(Guid groupId)
+    {
+        var query = new GetExpensesByGroupIdQuery(groupId);
+
+        var result = await _mediator.Send(query);
+
+        if (result.IsSuccess)
+        {
+            return Ok(result.Value);
+        }
+
+        return BadRequest(result.Error);
+    }
+
     [HttpPost("create/{userGroupId}")]
     public async Task<IActionResult> Create(Guid userGroupId, CreateExpenseRequest createExpenseRequest)
     {
@@ -29,7 +46,22 @@ public class ExpenseController : ControllerBase
 
         var result = await _mediator.Send(command);
 
-        if(result.IsSuccess)
+        if (result.IsSuccess)
+        {
+            return Ok();
+        }
+
+        return BadRequest(result.Error);
+    }
+
+    [HttpPost("addToExpense/group/{groupId}/expense/{expenseId}")]
+    public async Task<IActionResult> AddUsersToExpense(Guid groupId, Guid expenseId, AddUsersToExpenseRequest addUsersToExpenseRequest)
+    {
+        var command = new AddUserToExpenseCommand(groupId, addUsersToExpenseRequest.UserIds, expenseId, addUsersToExpenseRequest.Pay);
+
+        var result = await _mediator.Send(command);
+
+        if (result.IsSuccess)
         {
             return Ok();
         }

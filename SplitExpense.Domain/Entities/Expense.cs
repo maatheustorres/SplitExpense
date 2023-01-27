@@ -21,4 +21,9 @@ public sealed class Expense : AggregateRoot
 
     public static Expense Create(TotalExpense totalExpense, bool paid, Guid userGroupId) =>
         new(totalExpense, paid, userGroupId);
+
+    public ExpenseUsers AddUsersToExpense(decimal payTo, User user, Expense expense)
+    {
+        return new ExpenseUsers(payTo, user, expense);
+    }
 }

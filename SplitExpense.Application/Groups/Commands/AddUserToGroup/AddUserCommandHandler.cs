@@ -68,7 +68,7 @@ public sealed class AddUserCommandHandler : IRequestHandler<AddUserCommand, Resu
         {
             UserGroup userGroup = Group.AddUserToGroup(user, group);
 
-            if (await _userGroupRepository.CheckIfAdded(userGroup))
+            if (await _userGroupRepository.CheckIfAddedToGroup(userGroup))
             {
                 continue;
             }
