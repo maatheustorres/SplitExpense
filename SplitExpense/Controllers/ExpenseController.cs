@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SplitExpense.Application.Expenses.Commands.AddUserToExpense;
+using SplitExpense.Application.Expenses.Commands.SplitExpense;
 using SplitExpense.Application.Expenses.Commands.CreateExpense;
 using SplitExpense.Application.Expenses.Queries.GetExpensesByGroupId;
 using SplitExpense.Contracts.Expense;
@@ -55,12 +55,12 @@ public class ExpenseController : ControllerBase
     }
 
     [HttpPost("addToExpense/{expenseId}")]
-    public async Task<IActionResult> AddUsersToExpense(Guid expenseId, AddUsersToExpenseRequest addUsersToExpenseRequest)
+    public async Task<IActionResult> AddUsersToExpense(Guid expenseId, SplitExpenseRequest splitExpenseRequest)
     {
-        var command = new AddUserToExpenseCommand(
-            addUsersToExpenseRequest.GroupId,
-            addUsersToExpenseRequest.UserId,
-            addUsersToExpenseRequest.UserIds, 
+        var command = new SplitExpenseCommand(
+            splitExpenseRequest.GroupId,
+            splitExpenseRequest.UserId,
+            splitExpenseRequest.UserIds, 
             expenseId);
 
         var result = await _mediator.Send(command);

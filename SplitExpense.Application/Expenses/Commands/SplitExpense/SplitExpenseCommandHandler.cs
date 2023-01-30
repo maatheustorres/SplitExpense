@@ -5,11 +5,10 @@ using SplitExpense.Domain.Core.Primitives;
 using SplitExpense.Domain.Core.Primitives.Result;
 using SplitExpense.Domain.Entities;
 using SplitExpense.Domain.Repositories;
-using SplitExpense.Domain.ValueObjects;
 
-namespace SplitExpense.Application.Expenses.Commands.AddUserToExpense;
+namespace SplitExpense.Application.Expenses.Commands.SplitExpense;
 
-public sealed class AddUserToExpenseCommandHandler : IRequestHandler<AddUserToExpenseCommand, Result>
+public sealed class SplitExpenseCommandHandler : IRequestHandler<SplitExpenseCommand, Result>
 {
     private readonly IExpenseRepository _expenseRepository;
     private readonly IUserRepository _userRepository;
@@ -19,7 +18,7 @@ public sealed class AddUserToExpenseCommandHandler : IRequestHandler<AddUserToEx
     private readonly IUnitOfWork _unitOfWork;
     private const int resposibleUserByExpense = 1;
 
-    public AddUserToExpenseCommandHandler(
+    public SplitExpenseCommandHandler(
         IExpenseRepository expenseRepository,
         IUserRepository userRepository,
         IGroupRepository groupRepository,
@@ -35,7 +34,7 @@ public sealed class AddUserToExpenseCommandHandler : IRequestHandler<AddUserToEx
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result> Handle(AddUserToExpenseCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(SplitExpenseCommand request, CancellationToken cancellationToken)
     {
         ResultT<Group> groupResult = await _groupRepository.GetByIdAsync(request.GroupId);
 
