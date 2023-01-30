@@ -5,6 +5,7 @@ using SplitExpense.Application.Expenses.Commands.SplitExpense;
 using SplitExpense.Application.Expenses.Commands.CreateExpense;
 using SplitExpense.Application.Expenses.Queries.GetExpensesByGroupId;
 using SplitExpense.Contracts.Expense;
+using SplitExpense.Application.Expenses.Commands.UpdateExpense;
 
 namespace SplitExpense.Controllers;
 
@@ -68,6 +69,26 @@ public class ExpenseController : ControllerBase
         if (result.IsSuccess)
         {
             return Ok();
+        }
+
+        return BadRequest(result.Error);
+    }
+
+    [HttpPut("{expenseId}")]
+    public async Task<IActionResult> UpdateExpense(Guid expenseId, UpdateExpenseRequest updateExpenseRequest)
+    {
+        var command = new UpdateExpenseCommand(
+            expenseId, 
+            updateExpenseRequest.Expense, 
+            updateExpenseRequest.Paid, 
+            updateExpenseRequest.UserId,
+            updateExpenseRequest.UserGroupId);
+
+        var result = await _mediator.Send(command);
+
+        if (result.IsSuccess)
+        {
+            return Ok(result.Value);
         }
 
         return BadRequest(result.Error);

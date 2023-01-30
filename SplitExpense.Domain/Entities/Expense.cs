@@ -1,4 +1,6 @@
-﻿using SplitExpense.Domain.Core.Primitives;
+﻿using SplitExpense.Domain.Core.Errors;
+using SplitExpense.Domain.Core.Primitives;
+using SplitExpense.Domain.Core.Primitives.Result;
 using SplitExpense.Domain.ValueObjects;
 
 namespace SplitExpense.Domain.Entities;
@@ -25,5 +27,18 @@ public sealed class Expense : AggregateRoot
     public ExpenseUsers AddUsersToExpense(decimal payTo, User user, Expense expense)
     {
         return new ExpenseUsers(payTo, user, expense);
+    }
+
+    public Result Update(TotalExpense expense, bool paid)
+    {
+        if (Paid)
+        {
+            return Result.Failure(DomainErrors.Expense.AlreadyPaid);
+        }
+
+        TotalExpense = expense;
+        Paid = paid;
+
+        return Result.Success();
     }
 }

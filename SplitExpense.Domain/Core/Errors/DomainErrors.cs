@@ -75,14 +75,15 @@ public static class DomainErrors
     public static class Group
     {
         public static Error NotFound => new("Group.NotFound", "The group with the specified identifier was not found.");
-        public static Error AlreadyAdded => new("Group.AlreadyAdded", "The user(s) has already been added");
-        public static Error NoUser => new("Group.NoUser", "No user has been added to the group");
+        public static Error AlreadyAdded => new("Group.AlreadyAdded", "The user(s) has already been added.");
+        public static Error NoUser => new("Group.NoUser", "No user has been added to the group.");
     }
 
     public static class Expense
     {
-        public static Error InvalidExpense => new("Expense.InvalidExpense", "Expense amount must be greater than zero");
+        public static Error InvalidExpense => new("Expense.InvalidExpense", "Expense amount must be greater than zero.");
         public static Error NotFound => new("Expense.NotFound", "The expense with the specified identifier was not found.");
-        public static Error AlreadyAdded => new("Expense.AlreadyAdded", "The user(s) has already been added to the expense");
+        public static Error AlreadyAdded => new("Expense.AlreadyAdded", "The user(s) has already been added to the expense.");
+        public static Error AlreadyPaid => new("Expense.AlreadyPaid", "The expense has already been paid.");
     }
 }

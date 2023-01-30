@@ -65,7 +65,7 @@ public sealed class SplitExpenseCommandHandler : IRequestHandler<SplitExpenseCom
 
         if (validUserGroup.UserId != request.UserId)
         {
-            return Result.Failure(DomainErrors.User.NotFound);
+            return Result.Failure(DomainErrors.User.InvalidPermissions);
         }
 
         var expenseUsers = new List<ExpenseUsers>();
@@ -77,7 +77,7 @@ public sealed class SplitExpenseCommandHandler : IRequestHandler<SplitExpenseCom
 
         var usersToPay = request.UserIds.Count;
         
-        decimal splitValueToPay = expense.TotalExpense / (usersToPay + resposibleUserByExpense);
+        decimal splitValueToPay = expense.TotalExpense.Value / (usersToPay + resposibleUserByExpense);
 
         foreach (var userIds in request.UserIds)
         {
