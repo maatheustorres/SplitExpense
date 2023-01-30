@@ -54,10 +54,14 @@ public class ExpenseController : ControllerBase
         return BadRequest(result.Error);
     }
 
-    [HttpPost("addToExpense/group/{groupId}/expense/{expenseId}")]
-    public async Task<IActionResult> AddUsersToExpense(Guid groupId, Guid expenseId, AddUsersToExpenseRequest addUsersToExpenseRequest)
+    [HttpPost("addToExpense/{expenseId}")]
+    public async Task<IActionResult> AddUsersToExpense(Guid expenseId, AddUsersToExpenseRequest addUsersToExpenseRequest)
     {
-        var command = new AddUserToExpenseCommand(groupId, addUsersToExpenseRequest.UserIds, expenseId, addUsersToExpenseRequest.Pay);
+        var command = new AddUserToExpenseCommand(
+            addUsersToExpenseRequest.GroupId,
+            addUsersToExpenseRequest.UserId,
+            addUsersToExpenseRequest.UserIds, 
+            expenseId);
 
         var result = await _mediator.Send(command);
 

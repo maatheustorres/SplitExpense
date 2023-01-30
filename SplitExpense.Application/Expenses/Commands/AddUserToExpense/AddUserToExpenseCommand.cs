@@ -5,6 +5,6 @@ namespace SplitExpense.Application.Expenses.Commands.AddUserToExpense;
 
 public sealed record AddUserToExpenseCommand(
     Guid GroupId,
+    Guid UserId,
     IReadOnlyCollection<Guid> UserIds,
-    Guid ExpenseId,
-    decimal Pay) : IRequest<Result>;
+    Guid ExpenseId) : IRequest<Result>;

@@ -83,6 +83,6 @@ public static class DomainErrors
     {
         public static Error InvalidExpense => new("Expense.InvalidExpense", "Expense amount must be greater than zero");
         public static Error NotFound => new("Expense.NotFound", "The expense with the specified identifier was not found.");
-        public static Error AlreadyAdded => new("Group.AlreadyAdded", "The user(s) has already been added");
+        public static Error AlreadyAdded => new("Expense.AlreadyAdded", "The user(s) has already been added to the expense");
     }
 }

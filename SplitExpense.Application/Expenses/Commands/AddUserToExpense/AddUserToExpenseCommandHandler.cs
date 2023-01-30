@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using SplitExpense.Application.Core.Abstractions.Data;
 using SplitExpense.Domain.Core.Errors;
+using SplitExpense.Domain.Core.Primitives;
 using SplitExpense.Domain.Core.Primitives.Result;
 using SplitExpense.Domain.Entities;
 using SplitExpense.Domain.Repositories;
@@ -16,6 +17,7 @@ public sealed class AddUserToExpenseCommandHandler : IRequestHandler<AddUserToEx
     private readonly IUserGroupRepository _userGroupRepository;
     private readonly IExpenseUserRepository _expenseUserRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private const int resposibleUserByExpense = 1;
 
     public AddUserToExpenseCommandHandler(
         IExpenseRepository expenseRepository,
@@ -35,14 +37,9 @@ public sealed class AddUserToExpenseCommandHandler : IRequestHandler<AddUserToEx
 
     public async Task<Result> Handle(AddUserToExpenseCommand request, CancellationToken cancellationToken)
     {
-        if (request.UserIds.Count == 0)
-        {
-            return Result.Failure(DomainErrors.User.NullOrEmpty);
-        }
-
         ResultT<Group> groupResult = await _groupRepository.GetByIdAsync(request.GroupId);
 
-        if(groupResult.Value is null)
+        if (groupResult.Value is null)
         {
             return Result.Failure(DomainErrors.Group.NotFound);
         }
@@ -58,19 +55,38 @@ public sealed class AddUserToExpenseCommandHandler : IRequestHandler<AddUserToEx
 
         Expense expense = expenseResult.Value;
 
-        if (request.Pay < 1)
+        ResultT<UserGroup> userGroupByUserGroupId = await _userGroupRepository.GetByIdAsync(expense.UserGroupId);
+
+        if (userGroupByUserGroupId.Value is null)
         {
-            return Result.Failure(DomainErrors.Expense.InvalidExpense);
+            return Result.Failure(Error.NullValue);
+        }
+
+        UserGroup validUserGroup = userGroupByUserGroupId.Value;
+
+        if (validUserGroup.UserId != request.UserId)
+        {
+            return Result.Failure(DomainErrors.User.NotFound);
         }
 
         var expenseUsers = new List<ExpenseUsers>();
+
+        if (request.UserIds.Count == 0)
+        {
+            return Result.Failure(DomainErrors.User.NullOrEmpty);
+        }
+
+        var usersToPay = request.UserIds.Count;
+        
+        decimal splitValueToPay = expense.TotalExpense / (usersToPay + resposibleUserByExpense);
+
         foreach (var userIds in request.UserIds)
         {
             ResultT<User> userResult = await _userRepository.GetByIdAsync(userIds);
 
             if (userResult.Value is null)
             {
-                continue;
+                return Result.Failure(DomainErrors.User.NotFound);
             }
 
             User user = userResult.Value;
@@ -79,14 +95,14 @@ public sealed class AddUserToExpenseCommandHandler : IRequestHandler<AddUserToEx
 
             if (!await _userGroupRepository.CheckIfAddedToGroup(userGroup))
             {
-                continue;
+                return Result.Failure(DomainErrors.Group.AlreadyAdded);
             }
 
-            var expenseUser = expense.AddUsersToExpense(request.Pay, user, expense);
+            var expenseUser = expense.AddUsersToExpense(splitValueToPay, user, expense);
 
-            if (!await _expenseUserRepository.CheckIfAddedToExpense(expenseUser))
+            if (await _expenseUserRepository.CheckIfAddedToExpense(expenseUser))
             {
-                continue;
+                return Result.Failure(DomainErrors.Expense.AlreadyAdded);
             }
 
             expenseUsers.Add(expenseUser);
