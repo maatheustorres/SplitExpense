@@ -1,11 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SplitExpense.Application.Expenses.Commands.SplitExpense;
+using SplitExpense.Application.Expenses.Commands.CreateSplitExpense;
 using SplitExpense.Application.Expenses.Commands.CreateExpense;
 using SplitExpense.Application.Expenses.Queries.GetExpensesByGroupId;
 using SplitExpense.Contracts.Expense;
 using SplitExpense.Application.Expenses.Commands.UpdateExpense;
+using SplitExpense.Application.Expenses.Commands.UpdateSplitExpense;
 
 namespace SplitExpense.Controllers;
 
@@ -55,11 +56,30 @@ public class ExpenseController : ControllerBase
         return BadRequest(result.Error);
     }
 
-    [HttpPost("addToExpense/{expenseId}")]
-    public async Task<IActionResult> AddUsersToExpense(Guid expenseId, SplitExpenseRequest splitExpenseRequest)
+    [HttpPut("{expenseId}")]
+    public async Task<IActionResult> UpdateExpense(Guid expenseId, UpdateExpenseRequest updateExpenseRequest)
     {
-        var command = new SplitExpenseCommand(
-            splitExpenseRequest.GroupId,
+        var command = new UpdateExpenseCommand(
+            expenseId,
+            updateExpenseRequest.Expense,
+            updateExpenseRequest.Paid,
+            updateExpenseRequest.UserId,
+            updateExpenseRequest.UserGroupId);
+
+        var result = await _mediator.Send(command);
+
+        if (result.IsSuccess)
+        {
+            return Ok(result.Value);
+        }
+
+        return BadRequest(result.Error);
+    }
+
+    [HttpPost("SplitExpense/{expenseId}")]
+    public async Task<IActionResult> SplitExpense(Guid expenseId, SplitExpenseRequest splitExpenseRequest)
+    {
+        var command = new CreateSplitExpenseCommand(
             splitExpenseRequest.UserId,
             splitExpenseRequest.UserIds, 
             expenseId);
@@ -74,21 +94,19 @@ public class ExpenseController : ControllerBase
         return BadRequest(result.Error);
     }
 
-    [HttpPut("{expenseId}")]
-    public async Task<IActionResult> UpdateExpense(Guid expenseId, UpdateExpenseRequest updateExpenseRequest)
+    [HttpPut("SplitExpense/Update/{expenseId}")]
+    public async Task<IActionResult> UpdateSplitExpense(Guid expenseId, SplitExpenseRequest splitExpenseRequest)
     {
-        var command = new UpdateExpenseCommand(
-            expenseId, 
-            updateExpenseRequest.Expense, 
-            updateExpenseRequest.Paid, 
-            updateExpenseRequest.UserId,
-            updateExpenseRequest.UserGroupId);
+        var command = new UpdateSplitExpenseCommand( 
+            splitExpenseRequest.UserId, 
+            splitExpenseRequest.UserIds, 
+            expenseId);
 
         var result = await _mediator.Send(command);
 
         if (result.IsSuccess)
         {
-            return Ok(result.Value);
+            return Ok();
         }
 
         return BadRequest(result.Error);

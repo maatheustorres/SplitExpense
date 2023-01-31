@@ -1,4 +1,5 @@
-﻿using SplitExpense.Application.Core.Abstractions.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SplitExpense.Application.Core.Abstractions.Data;
 using SplitExpense.Domain.Entities;
 using SplitExpense.Domain.Repositories;
 using SplitExpense.Persistence.Specifications;
@@ -13,4 +14,8 @@ internal sealed class ExpenseUserRepository : GenericRepository<ExpenseUsers>, I
     }
 
     public async Task<bool> CheckIfAddedToExpense(ExpenseUsers expenseUser) => await AnyAsync(new ExpenseUsersSpecification(expenseUser));
+
+    public async Task<ExpenseUsers> GetByUserIdAndExpenseId(Guid expenseId, Guid userId)
+        => await DbContext.Set<ExpenseUsers>()
+                .FirstOrDefaultAsync(x => x.ExpenseId == expenseId && x.UserId == userId);
 }

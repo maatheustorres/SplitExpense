@@ -23,4 +23,9 @@ public sealed class ExpenseUsers : AggregateRoot
     {
         return new ExpenseUsers(pay, user, expense);
     }
+
+    public void Update(decimal splitValueToPay)
+    {
+        PayTo = splitValueToPay;
+    }
 }
