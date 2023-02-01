@@ -1,7 +1,8 @@
 ﻿using MediatR;
+using SplitExpense.Contracts.SplitExpense;
 using SplitExpense.Domain.Core.Primitives.Result;
 
-namespace SplitExpense.Application.Expenses.Commands.CreateSplitExpense;
+namespace SplitExpense.Application.SplitExpense.Commands.CreateSplitExpense;
 
 public sealed record CreateSplitExpenseCommand(
     Guid UserId,

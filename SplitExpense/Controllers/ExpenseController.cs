@@ -1,12 +1,14 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SplitExpense.Application.Expenses.Commands.CreateSplitExpense;
+using SplitExpense.Application.SplitExpense.Commands.CreateSplitExpense;
 using SplitExpense.Application.Expenses.Commands.CreateExpense;
 using SplitExpense.Application.Expenses.Queries.GetExpensesByGroupId;
 using SplitExpense.Contracts.Expense;
 using SplitExpense.Application.Expenses.Commands.UpdateExpense;
-using SplitExpense.Application.Expenses.Commands.UpdateSplitExpense;
+using SplitExpense.Application.SplitExpense.Commands.UpdateSplitExpense;
+using SplitExpense.Contracts.SplitExpense;
+using SplitExpense.Application.SplitExpense.Commands.RemoveUserFromExpense;
 
 namespace SplitExpense.Controllers;
 
@@ -101,6 +103,21 @@ public class ExpenseController : ControllerBase
             splitExpenseRequest.UserId, 
             splitExpenseRequest.UserIds, 
             expenseId);
+
+        var result = await _mediator.Send(command);
+
+        if (result.IsSuccess)
+        {
+            return Ok();
+        }
+
+        return BadRequest(result.Error);
+    }
+
+    [HttpDelete("{expenseUserId}")]
+    public async Task<IActionResult> RemoveUserFromExpense(Guid expenseUserId)
+    {
+        var command = new RemoveUserFromExpenseCommand(expenseUserId);
 
         var result = await _mediator.Send(command);
 

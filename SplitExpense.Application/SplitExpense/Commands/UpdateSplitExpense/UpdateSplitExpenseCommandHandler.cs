@@ -6,9 +6,9 @@ using SplitExpense.Domain.Core.Primitives.Result;
 using SplitExpense.Domain.Entities;
 using SplitExpense.Domain.Repositories;
 
-namespace SplitExpense.Application.Expenses.Commands.CreateSplitExpense;
+namespace SplitExpense.Application.SplitExpense.Commands.UpdateSplitExpense;
 
-public sealed class CreateSplitExpenseCommandHandler : IRequestHandler<CreateSplitExpenseCommand, Result>
+public sealed class UpdateSplitExpenseCommandHandler : IRequestHandler<UpdateSplitExpenseCommand, Result>
 {
     private readonly IExpenseRepository _expenseRepository;
     private readonly IUserRepository _userRepository;
@@ -18,7 +18,7 @@ public sealed class CreateSplitExpenseCommandHandler : IRequestHandler<CreateSpl
     private readonly IUnitOfWork _unitOfWork;
     private const int resposibleUserByExpense = 1;
 
-    public CreateSplitExpenseCommandHandler(
+    public UpdateSplitExpenseCommandHandler(
         IExpenseRepository expenseRepository,
         IUserRepository userRepository,
         IGroupRepository groupRepository,
@@ -34,7 +34,7 @@ public sealed class CreateSplitExpenseCommandHandler : IRequestHandler<CreateSpl
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result> Handle(CreateSplitExpenseCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(UpdateSplitExpenseCommand request, CancellationToken cancellationToken)
     {
         ResultT<Expense> expenseResult = await _expenseRepository.GetByIdAsync(request.ExpenseId);
 
@@ -45,9 +45,9 @@ public sealed class CreateSplitExpenseCommandHandler : IRequestHandler<CreateSpl
 
         Expense expense = expenseResult.Value;
 
-        if(expense.Paid)
+        if (expense.Paid)
         {
-            return Result.Success(DomainErrors.Expense.AlreadyPaid);
+            return Result.Failure(DomainErrors.Expense.AlreadyPaid);
         }
 
         ResultT<UserGroup> userGroupByUserGroupId = await _userGroupRepository.GetByIdAsync(expense.UserGroupId);
@@ -64,25 +64,15 @@ public sealed class CreateSplitExpenseCommandHandler : IRequestHandler<CreateSpl
             return Result.Failure(DomainErrors.User.InvalidPermissions);
         }
 
-        ResultT<Group> groupResult = await _groupRepository.GetByIdAsync(validUserGroup.GroupId);
-
-        if (groupResult.Value is null)
-        {
-            return Result.Failure(DomainErrors.Group.NotFound);
-        }
-
-        Group group = groupResult.Value;
-
         if (request.UserIds.Count == 0)
         {
             return Result.Failure(DomainErrors.User.NullOrEmpty);
         }
 
         var usersToPay = request.UserIds.Count;
-        
+
         decimal splitValueToPay = expense.TotalExpense.Value / (usersToPay + resposibleUserByExpense);
 
-        var expenseUsers = new List<ExpenseUsers>();
         foreach (var userIds in request.UserIds)
         {
             ResultT<User> userResult = await _userRepository.GetByIdAsync(userIds);
@@ -94,29 +84,15 @@ public sealed class CreateSplitExpenseCommandHandler : IRequestHandler<CreateSpl
 
             User user = userResult.Value;
 
-            UserGroup userGroup = Group.AddUserToGroup(user, group);
+            ExpenseUsers expenseUser = await _expenseUserRepository.GetByUserIdAndExpenseId(expense.Id, user.Id);
 
-            if (!await _userGroupRepository.CheckIfAddedToGroup(userGroup))
+            if (expenseUser is null)
             {
-                return Result.Failure(DomainErrors.Group.AlreadyAdded);
+                return Result.Failure(DomainErrors.Expense.UserNotAdded);
             }
 
-            var expenseUser = expense.AddUsersToExpense(splitValueToPay, user, expense);
-
-            if (await _expenseUserRepository.CheckIfAddedToExpense(expenseUser))
-            {
-                return Result.Failure(DomainErrors.Expense.AlreadyAdded);
-            }
-
-            expenseUsers.Add(expenseUser);
+            expenseUser.Update(splitValueToPay);
         }
-
-        if (!expenseUsers.Any())
-        {
-            return Result.Failure(DomainErrors.Expense.AlreadyAdded);
-        }
-
-        _expenseUserRepository.InsertRange(expenseUsers);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

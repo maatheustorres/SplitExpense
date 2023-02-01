@@ -62,8 +62,9 @@ public sealed class GetExpensesByGroupIdQueryHandler : IRequestHandler<GetExpens
                 where expenseUser.ExpenseId == expenseId
                 select new UserExpenseListResponseModel
                 {
-                    UserId = user.Id,
+                    Id = expenseUser.Id,
                     Repay = expenseUser.PayTo,
+                    UserId = user.Id,
                     Email = user.Email,
                     FullName = $"{user.FirstName} {user.LastName}"
                 }).ToListAsync();

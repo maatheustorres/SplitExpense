@@ -1,4 +1,4 @@
-﻿namespace SplitExpense.Contracts.Expense;
+﻿namespace SplitExpense.Contracts.SplitExpense;
 
 public sealed class SplitExpenseRequest
 {

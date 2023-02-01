@@ -9,4 +9,5 @@ public interface IExpenseUserRepository
     Task<ExpenseUsers> GetByIdAsync(Guid expenseId);
     void Update(ExpenseUsers expenseUser);
     Task<ExpenseUsers> GetByUserIdAndExpenseId(Guid id1, Guid id2);
+    void Remove(ExpenseUsers expenseUsers);
 }
