@@ -3,21 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SplitExpense", "SplitExpense\SplitExpense.csproj", "{24176038-4B95-4145-A11C-894FB65EBE33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SplitExpense", "SplitExpense\SplitExpense.csproj", "{24176038-4B95-4145-A11C-894FB65EBE33}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{BF904AE8-90BB-4353-9C34-9543E9E09C69}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{CFE702BB-C2E3-405B-B677-CEE4D1DB8CC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SplitExpense.Application", "SplitExpense.Application\SplitExpense.Application.csproj", "{65772294-3AE3-4C2A-8342-262A75CA9D41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SplitExpense.Application", "SplitExpense.Application\SplitExpense.Application.csproj", "{65772294-3AE3-4C2A-8342-262A75CA9D41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SplitExpense.Contracts", "SplitExpense.Contracts\SplitExpense.Contracts.csproj", "{FE6135D3-C561-422E-9BC8-DEF5622F8E81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SplitExpense.Contracts", "SplitExpense.Contracts\SplitExpense.Contracts.csproj", "{FE6135D3-C561-422E-9BC8-DEF5622F8E81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SplitExpense.Domain", "SplitExpense.Domain\SplitExpense.Domain.csproj", "{149828B5-58C1-4BBB-9CFB-92C8DE453D81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SplitExpense.Domain", "SplitExpense.Domain\SplitExpense.Domain.csproj", "{149828B5-58C1-4BBB-9CFB-92C8DE453D81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SplitExpense.Infrastructure", "SplitExpense.Infrastructure\SplitExpense.Infrastructure.csproj", "{3E2DA863-BAA4-40F4-810A-9581706A9451}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SplitExpense.Infrastructure", "SplitExpense.Infrastructure\SplitExpense.Infrastructure.csproj", "{3E2DA863-BAA4-40F4-810A-9581706A9451}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SplitExpense.Persistence", "SplitExpense.Persistence\SplitExpense.Persistence.csproj", "{A9D3CC48-8329-4BEB-8FC2-7B7A3DBA7D8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SplitExpense.Persistence", "SplitExpense.Persistence\SplitExpense.Persistence.csproj", "{A9D3CC48-8329-4BEB-8FC2-7B7A3DBA7D8E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9AC70C11-77F2-422C-8514-08B9B6073770}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SplitExpense.Application.Tests", "SplitExpense.Application.Tests\SplitExpense.Application.Tests.csproj", "{F46EED38-C21D-446D-A07F-7D6C3D028A3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +53,10 @@ Global
 		{A9D3CC48-8329-4BEB-8FC2-7B7A3DBA7D8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9D3CC48-8329-4BEB-8FC2-7B7A3DBA7D8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9D3CC48-8329-4BEB-8FC2-7B7A3DBA7D8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F46EED38-C21D-446D-A07F-7D6C3D028A3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F46EED38-C21D-446D-A07F-7D6C3D028A3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F46EED38-C21D-446D-A07F-7D6C3D028A3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F46EED38-C21D-446D-A07F-7D6C3D028A3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +68,7 @@ Global
 		{149828B5-58C1-4BBB-9CFB-92C8DE453D81} = {CFE702BB-C2E3-405B-B677-CEE4D1DB8CC1}
 		{3E2DA863-BAA4-40F4-810A-9581706A9451} = {CFE702BB-C2E3-405B-B677-CEE4D1DB8CC1}
 		{A9D3CC48-8329-4BEB-8FC2-7B7A3DBA7D8E} = {CFE702BB-C2E3-405B-B677-CEE4D1DB8CC1}
+		{F46EED38-C21D-446D-A07F-7D6C3D028A3A} = {9AC70C11-77F2-422C-8514-08B9B6073770}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {487157F3-6F78-4894-87EE-741F06093FE5}

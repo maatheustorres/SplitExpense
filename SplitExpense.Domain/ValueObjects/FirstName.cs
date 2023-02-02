@@ -16,7 +16,7 @@ public sealed class FirstName : ValueObject
 
     public static ResultT<FirstName> Create(string firstName)
     {
-        if(firstName is null)
+        if(string.IsNullOrEmpty(firstName))
         {
             return Result.Failure<FirstName>(DomainErrors.FirstName.NullOrEmpty);
         }

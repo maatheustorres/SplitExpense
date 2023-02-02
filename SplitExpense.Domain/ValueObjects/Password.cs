@@ -20,7 +20,7 @@ public sealed class Password : ValueObject
 
     public static ResultT<Password> Create(string password)
     {
-        if (password is null)
+        if (string.IsNullOrEmpty(password))
             return Result.Failure<Password>(DomainErrors.Password.NullOrEmpty);
 
         if (password.Length < MinPasswordLength)

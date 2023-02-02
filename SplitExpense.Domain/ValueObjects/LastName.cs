@@ -16,14 +16,14 @@ public sealed class LastName : ValueObject
 
     public static ResultT<LastName> Create(string lastName)
     {
-        if (lastName is null)
+        if (string.IsNullOrEmpty(lastName))
         {
-            return Result.Failure<LastName>(DomainErrors.FirstName.NullOrEmpty);
+            return Result.Failure<LastName>(DomainErrors.LastName.NullOrEmpty);
         }
 
         if (lastName.Length > MaxLength)
         {
-            return Result.Failure<LastName>(DomainErrors.FirstName.LongerThanAllowed);
+            return Result.Failure<LastName>(DomainErrors.LastName.LongerThanAllowed);
         }
 
         return new LastName(lastName);

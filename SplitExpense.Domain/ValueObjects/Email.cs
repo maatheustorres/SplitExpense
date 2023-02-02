@@ -22,7 +22,7 @@ public sealed class Email : ValueObject
 
     public static ResultT<Email> Create(string email)
     {
-        if (email is null)
+        if (string.IsNullOrEmpty(email))
         {
             return Result.Failure<Email>(DomainErrors.Email.NullOrEmpty);
         }

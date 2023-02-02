@@ -70,7 +70,7 @@ public sealed class AddUserCommandHandler : IRequestHandler<AddUserCommand, Resu
 
             if (await _userGroupRepository.CheckIfAddedToGroup(userGroup))
             {
-                continue;
+                return Result.Failure<AddUserResponse>(DomainErrors.Group.AlreadyAdded);
             }
 
             usersGroup.Add(userGroup);
