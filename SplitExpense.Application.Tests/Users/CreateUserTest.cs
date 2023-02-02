@@ -30,7 +30,7 @@ public class CreateUserTest
     public async Task CreateUserWithValidParameters()
     {
         // arrange 
-        var command = new CreateUserCommand("Matheus", "Torres", "matheus@outlook.com", "Matheus@123");
+        var command = new CreateUserCommand("Matheus", "Torres", "matheus@outlook.com", "Password@123");
         var passwordHash = "oCnrkMwQG7/UeGsNxEzTCHOTHBObMKXSzEpXog9qsk8piVtWB34hfEChPo9bX6qV";
 
         _userRepository.Setup(x => x.IsEmailUniqueAsync(It.IsAny<Email>())).ReturnsAsync(true);
@@ -48,7 +48,7 @@ public class CreateUserTest
     public async Task CreateUserWithFirstNameNullOrEmpty()
     {
         // arrange
-        var command = new CreateUserCommand("", "Torres", "matheus@outlook.com", "Matheus@123");
+        var command = new CreateUserCommand("", "Torres", "matheus@outlook.com", "Password@123");
 
         // act 
         var result = await _createUserCommandHandler.Handle(command, It.IsAny<CancellationToken>());
@@ -79,7 +79,7 @@ public class CreateUserTest
     public async Task CreateUserWithLastNameNullOrEmpty()
     {
         // arrange
-        var command = new CreateUserCommand("Matheus", "", "matheus@outlook.com", "Matheus@123");
+        var command = new CreateUserCommand("Matheus", "", "matheus@outlook.com", "Password@123");
 
         // act 
         var result = await _createUserCommandHandler.Handle(command, It.IsAny<CancellationToken>());
@@ -96,7 +96,7 @@ public class CreateUserTest
         var command = new CreateUserCommand("Matheus",
             "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
             "matheus@outlook.com",
-            "Matheus@123");
+            "Password@123");
 
         // act 
         var result = await _createUserCommandHandler.Handle(command, It.IsAny<CancellationToken>());
@@ -110,7 +110,7 @@ public class CreateUserTest
     public async Task CreateUserWithDuplicateEmail()
     {
         // arrange
-        var command = new CreateUserCommand("Matheus", "Torres", "matheus@outlook.com", "Matheus@123");
+        var command = new CreateUserCommand("Matheus", "Torres", "matheus@outlook.com", "Password@123");
 
         _userRepository.Setup(x => x.IsEmailUniqueAsync(It.IsAny<Email>())).ReturnsAsync(false);
 
@@ -126,7 +126,7 @@ public class CreateUserTest
     public async Task CreateUserWithEmailNullOrEmpty()
     {
         // arrange
-        var command = new CreateUserCommand("Matheus", "Torres", "", "Matheus@123");
+        var command = new CreateUserCommand("Matheus", "Torres", "", "Password@123");
 
         // act 
         var result = await _createUserCommandHandler.Handle(command, It.IsAny<CancellationToken>());
@@ -140,7 +140,7 @@ public class CreateUserTest
     public async Task CreateUserWithInvalidEmailFormat()
     {
         // arrange
-        var command = new CreateUserCommand("Matheus", "Torres", "matheus", "Matheus@123");
+        var command = new CreateUserCommand("Matheus", "Torres", "matheus", "Password@123");
 
         // act 
         var result = await _createUserCommandHandler.Handle(command, It.IsAny<CancellationToken>());
@@ -157,7 +157,7 @@ public class CreateUserTest
         var command = new CreateUserCommand("Matheus",
             "Torres",
             "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm@outlook.com",
-            "Matheus@123");
+            "Password@123");
 
         // act 
         var result = await _createUserCommandHandler.Handle(command, It.IsAny<CancellationToken>());
@@ -185,7 +185,7 @@ public class CreateUserTest
     public async Task CreateUserWithPasswordTooShort()
     {
         // arrange
-        var command = new CreateUserCommand("Matheus", "Torres", "matheus@outlook.com", "Math@1");
+        var command = new CreateUserCommand("Matheus", "Torres", "matheus@outlook.com", "Pass@1");
 
         // act 
         var result = await _createUserCommandHandler.Handle(command, It.IsAny<CancellationToken>());
@@ -199,7 +199,7 @@ public class CreateUserTest
     public async Task CreateUserWithPasswordMissingLowercaseLetter()
     {
         // arrange
-        var command = new CreateUserCommand("Matheus", "Torres", "matheus@outlook.com", "MATHEUS@1");
+        var command = new CreateUserCommand("Matheus", "Torres", "matheus@outlook.com", "PASSWORD@1");
 
         // act 
         var result = await _createUserCommandHandler.Handle(command, It.IsAny<CancellationToken>());
@@ -213,7 +213,7 @@ public class CreateUserTest
     public async Task CreateUserWithPasswordMissingUppercaseLetter()
     {
         // arrange
-        var command = new CreateUserCommand("Matheus", "Torres", "matheus@outlook.com", "matheus@1");
+        var command = new CreateUserCommand("Matheus", "Torres", "matheus@outlook.com", "password@1");
 
         // act 
         var result = await _createUserCommandHandler.Handle(command, It.IsAny<CancellationToken>());
@@ -227,7 +227,7 @@ public class CreateUserTest
     public async Task CreateUserWithPasswordMissingDigit()
     {
         // arrange
-        var command = new CreateUserCommand("Matheus", "Torres", "matheus@outlook.com", "Matheus@");
+        var command = new CreateUserCommand("Matheus", "Torres", "matheus@outlook.com", "Password@");
 
         // act 
         var result = await _createUserCommandHandler.Handle(command, It.IsAny<CancellationToken>());
@@ -241,7 +241,7 @@ public class CreateUserTest
     public async Task CreateUserWithPasswordMissingNonAlphaNumeric()
     {
         // arrange
-        var command = new CreateUserCommand("Matheus", "Torres", "matheus@outlook.com", "Matheus1");
+        var command = new CreateUserCommand("Matheus", "Torres", "matheus@outlook.com", "Password1");
 
         // act 
         var result = await _createUserCommandHandler.Handle(command, It.IsAny<CancellationToken>());

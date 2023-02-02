@@ -28,8 +28,4 @@
     <ProjectReference Include="..\SplitExpense.Domain\SplitExpense.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Authentication\" />
-  </ItemGroup>
-
 </Project>
