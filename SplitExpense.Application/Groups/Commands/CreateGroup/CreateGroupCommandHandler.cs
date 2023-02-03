@@ -10,13 +10,13 @@ using SplitExpense.Domain.ValueObjects;
 
 namespace SplitExpense.Application.Groups.Commands.Create;
 
-public sealed class CreateGroupoCommandHandler : IRequestHandler<CreateGroupCommand, ResultT<GroupResponse>>
+public sealed class CreateGroupCommandHandler : IRequestHandler<CreateGroupCommand, ResultT<GroupResponse>>
 {
     private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IGroupRepository _groupRepository;
 
-    public CreateGroupoCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork, IGroupRepository groupRepository)
+    public CreateGroupCommandHandler(IUserRepository userRepository, IUnitOfWork unitOfWork, IGroupRepository groupRepository)
     {
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;

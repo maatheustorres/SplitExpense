@@ -16,7 +16,7 @@ public class Name : ValueObject
 
     public static ResultT<Name> Create(string name)
     {
-        if (name is null)
+        if (string.IsNullOrEmpty(name))
         {
             return Result.Failure<Name>(DomainErrors.Name.NullOrEmpty);
         }
