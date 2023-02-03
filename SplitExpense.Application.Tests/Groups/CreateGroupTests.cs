@@ -9,14 +9,14 @@ using SplitExpense.Domain.ValueObjects;
 
 namespace SplitExpense.Application.Tests.Groups;
 
-public class CreateGroupTest
+public class CreateGroupTests
 {
     private readonly Mock<IUserRepository> _userRepository = new();
     private readonly Mock<IUnitOfWork> _unitOfWork = new();
     private readonly Mock<IGroupRepository> _groupRepository = new();
     private readonly CreateGroupCommandHandler _createGroupoCommandHandler;
 
-    public CreateGroupTest()
+    public CreateGroupTests()
     {
         _createGroupoCommandHandler = new CreateGroupCommandHandler(
             _userRepository.Object,

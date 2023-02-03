@@ -51,7 +51,7 @@ public sealed class AddUserCommandHandler : IRequestHandler<AddUserCommand, Resu
 
         IReadOnlyCollection<User> users = await _userRepository.GetUsersByEmailsAsync(emails);
 
-        if (!users.Any())
+        if (users is null)
         {
             return Result.Failure<AddUserResponse>(DomainErrors.User.NotFound);
         }

@@ -9,7 +9,7 @@ using SplitExpense.Domain.ValueObjects;
 
 namespace SplitExpense.Application.Tests.Users;
 
-public class CreateUserTest
+public class CreateUserTests
 {
     private readonly Mock<IUserRepository> _userRepository = new();
     private readonly Mock<IPasswordHasher> _passwordHasher = new();
@@ -17,7 +17,7 @@ public class CreateUserTest
     private readonly Mock<IJwtProvider> _jwtProvider = new();
     private readonly CreateUserCommandHandler _createUserCommandHandler;
 
-    public CreateUserTest()
+    public CreateUserTests()
     {
         _createUserCommandHandler = new CreateUserCommandHandler(
             _userRepository.Object,
