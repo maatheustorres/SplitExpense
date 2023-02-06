@@ -43,7 +43,7 @@ public sealed class UpdateExpenseCommandHandler : IRequestHandler<UpdateExpenseC
 
         UserGroup validUserGroup = userGroupByUserGroupId.Value;
 
-        if (validUserGroup.UserId != request.UserId)
+        if (validUserGroup.Id != expense.UserGroupId)
         {
             return Result.Failure<ExpensesResponse>(DomainErrors.User.InvalidPermissions);
         }

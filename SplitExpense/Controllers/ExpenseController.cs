@@ -65,7 +65,6 @@ public class ExpenseController : ControllerBase
             expenseId,
             updateExpenseRequest.Expense,
             updateExpenseRequest.Paid,
-            updateExpenseRequest.UserId,
             updateExpenseRequest.UserGroupId);
 
         var result = await _mediator.Send(command);

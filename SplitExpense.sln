@@ -8,6 +8,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{BF904AE8-90BB-4353-9C34-9543E9E09C69}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{CFE702BB-C2E3-405B-B677-CEE4D1DB8CC1}"
+	ProjectSection(SolutionItems) = preProject
+		SplitExpense\Program.cs = SplitExpense\Program.cs
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SplitExpense.Application", "SplitExpense.Application\SplitExpense.Application.csproj", "{65772294-3AE3-4C2A-8342-262A75CA9D41}"
 EndProject

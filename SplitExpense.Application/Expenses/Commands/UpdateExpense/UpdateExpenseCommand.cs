@@ -8,6 +8,5 @@ public sealed record UpdateExpenseCommand(
     Guid Id,
     decimal Expense,
     bool Paid,
-    Guid UserId,
     Guid UserGroupId) : IRequest<ResultT<ExpensesResponse>>;
 

@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using SplitExpense.Application.Core.Abstractions.Data;
-using SplitExpense.Contracts.SplitExpense;
 using SplitExpense.Domain.Core.Errors;
 using SplitExpense.Domain.Core.Primitives;
 using SplitExpense.Domain.Core.Primitives.Result;
@@ -84,9 +83,9 @@ public sealed class CreateSplitExpenseCommandHandler : IRequestHandler<CreateSpl
         decimal splitValueToPay = expense.TotalExpense.Value / (usersToPay + resposibleUserByExpense);
 
         var expenseUsers = new List<ExpenseUsers>();
-        foreach (var userIds in request.UserIds)
+        foreach (var userId in request.UserIds)
         {
-            ResultT<User> userResult = await _userRepository.GetByIdAsync(userIds);
+            ResultT<User> userResult = await _userRepository.GetByIdAsync(userId);
 
             if (userResult.Value is null)
             {

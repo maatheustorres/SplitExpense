@@ -8,7 +8,7 @@ using SplitExpense.Domain.Enumerations;
 using SplitExpense.Domain.Repositories;
 using SplitExpense.Domain.ValueObjects;
 
-namespace SplitExpense.Application.Tests.Expense;
+namespace SplitExpense.Application.Tests.Expenses;
 
 public class CreateExpenseTests
 {
