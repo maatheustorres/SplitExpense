@@ -5,6 +5,7 @@ using SplitExpense.Application.Groups.Commands.AddUser;
 using SplitExpense.Application.Groups.Commands.Create;
 using SplitExpense.Application.Groups.Commands.UpdateGroupName;
 using SplitExpense.Application.Groups.Queries.GetGroupsByUserId;
+using SplitExpense.Application.Groups.Queries.GetUsersByGroupId;
 using SplitExpense.Contracts.Group;
 
 namespace SplitExpense.Controllers;
@@ -24,9 +25,24 @@ public class GroupController : ControllerBase
     [HttpGet("userId/{userId}")]
     public async Task<IActionResult> GetGroupsByUserId(Guid userId, int page, int pageSize)
     {
-        var command = new GetGroupsByUserIdQuery(userId, page, pageSize);
+        var query = new GetGroupsByUserIdQuery(userId, page, pageSize);
 
-        var result = await _mediator.Send(command);
+        var result = await _mediator.Send(query);
+
+        if (result.IsSuccess)
+        {
+            return Ok(result.Value);
+        }
+
+        return BadRequest(result.Error);
+    }
+
+    [HttpGet("users-group/{groupId}")]
+    public async Task<IActionResult> GetUsersByGroupId(Guid groupId)
+    {
+        var query = new GetUsersByGroupIdQuery(groupId);
+
+        var result = await _mediator.Send(query);
 
         if (result.IsSuccess)
         {
@@ -51,14 +67,14 @@ public class GroupController : ControllerBase
         return BadRequest(result.Error);
     }
 
-    [HttpPost("add")] 
+    [HttpPost("add")]
     public async Task<IActionResult> AddUser(AddUserRequest addUserRequest)
     {
         var command = new AddUserCommand(addUserRequest.GroupId, addUserRequest.Emails);
 
         var result = await _mediator.Send(command);
 
-        if(result.IsSuccess)
+        if (result.IsSuccess)
         {
             return Ok(result.Value);
         }
