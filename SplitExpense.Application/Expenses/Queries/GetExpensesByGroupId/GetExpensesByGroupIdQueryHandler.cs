@@ -31,6 +31,8 @@ public sealed class GetExpensesByGroupIdQueryHandler : IRequestHandler<GetExpens
                 on expense.UserGroupId equals usergroup.Id
             join user in _dbContext.Set<User>().AsNoTracking()
                 on usergroup.UserId equals user.Id
+            join groupname in _dbContext.Set<Group>().AsNoTracking()
+                on usergroup.GroupId equals groupname.Id
             where usergroup.GroupId == request.GroupId
             select new ExpensesResponse
             {
@@ -39,6 +41,7 @@ public sealed class GetExpensesByGroupIdQueryHandler : IRequestHandler<GetExpens
                 UserToReceive = $"{user.FirstName} {user.LastName}",
                 TotalExpense = expense.TotalExpense,
                 Paid = expense.Paid,
+                GroupName = groupname.Name,
                 ExpenseId = expense.Id
             }).ToListAsync();
 

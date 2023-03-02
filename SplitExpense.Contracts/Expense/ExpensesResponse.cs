@@ -13,6 +13,7 @@ public sealed class ExpensesResponse
     public decimal? TotalExpense { get; set; }
     public bool? Paid { get; set; }
     public string UserToReceive { get; set; }
+    public string GroupName { get; set; }
     public List<UserExpenseListResponseModel> UserExpense { get; set; }
 
     public sealed class UserExpenseListResponseModel

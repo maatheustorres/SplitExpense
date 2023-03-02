@@ -58,6 +58,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(b => b.WithOrigins("*", "*", "*").AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
@@ -67,7 +69,5 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.UseCors(b => b.WithOrigins("*", "*", "*").AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
 app.Run();
