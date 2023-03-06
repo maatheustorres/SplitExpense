@@ -8,9 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{BF904AE8-90BB-4353-9C34-9543E9E09C69}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{CFE702BB-C2E3-405B-B677-CEE4D1DB8CC1}"
-	ProjectSection(SolutionItems) = preProject
-		SplitExpense\Program.cs = SplitExpense\Program.cs
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SplitExpense.Application", "SplitExpense.Application\SplitExpense.Application.csproj", "{65772294-3AE3-4C2A-8342-262A75CA9D41}"
 EndProject
@@ -24,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SplitExpense.Persistence", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9AC70C11-77F2-422C-8514-08B9B6073770}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SplitExpense.Application.Tests", "SplitExpense.Application.Tests\SplitExpense.Application.Tests.csproj", "{F46EED38-C21D-446D-A07F-7D6C3D028A3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SplitExpense.Application.Tests", "SplitExpense.Application.Tests\SplitExpense.Application.Tests.csproj", "{F46EED38-C21D-446D-A07F-7D6C3D028A3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using SplitExpense.Contracts.Expense;
 using SplitExpense.Domain.Core.Primitives.Result;
 
 namespace SplitExpense.Application.Expenses.Commands.CreateExpense;
@@ -8,5 +9,5 @@ public sealed record CreateExpenseCommand(
     bool Paid, 
     Guid UserGroupId,
     Guid UserId,
-    Guid GroupId) : IRequest<Result>;
+    Guid GroupId) : IRequest<ResultT<ExpenseResponse>>;
     

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using SplitExpense.Application.Core.Abstractions.Data;
+using SplitExpense.Contracts.Expense;
 using SplitExpense.Domain.Core.Errors;
 using SplitExpense.Domain.Core.Primitives.Result;
 using SplitExpense.Domain.Entities;
@@ -8,7 +9,7 @@ using SplitExpense.Domain.ValueObjects;
 
 namespace SplitExpense.Application.Expenses.Commands.CreateExpense;
 
-public sealed class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseCommand, Result>
+public sealed class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseCommand, ResultT<ExpenseResponse>>
 {
     private readonly IUserGroupRepository _userGroupRepository;
     private readonly IUserRepository _userRepository;
@@ -30,13 +31,13 @@ public sealed class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseC
         _expenseRepository = expenseRepository;
     }
 
-    public async Task<Result> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
+    public async Task<ResultT<ExpenseResponse>> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
     {
         ResultT<User> userResult = await _userRepository.GetByIdAsync(request.UserId);
 
         if (userResult.Value is null)
         {
-            return Result.Failure(DomainErrors.User.NotFound);
+            return Result.Failure<ExpenseResponse>(DomainErrors.User.NotFound);
         }
 
         User user = userResult.Value;
@@ -45,7 +46,7 @@ public sealed class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseC
 
         if (groupResult.Value is null)
         {
-            return Result.Failure(DomainErrors.Group.NotFound);
+            return Result.Failure<ExpenseResponse>(DomainErrors.Group.NotFound);
         }
 
         Group group = groupResult.Value;
@@ -54,14 +55,14 @@ public sealed class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseC
 
         if (!await _userGroupRepository.CheckIfAddedToGroup(userGroup))
         {
-            return Result.Failure(DomainErrors.User.InvalidPermissions);
+            return Result.Failure<ExpenseResponse>(DomainErrors.User.InvalidPermissions);
         }
 
         ResultT<TotalExpense> totalExpenseResult = TotalExpense.Create(request.TotalExpense);
 
         if(totalExpenseResult.IsFailure)
         {
-            return Result.Failure(totalExpenseResult.Error);
+            return Result.Failure<ExpenseResponse>(totalExpenseResult.Error);
         }
 
         var expense = Expense.Create(totalExpenseResult.Value, request.Paid, request.UserGroupId);
@@ -70,7 +71,7 @@ public sealed class CreateExpenseCommandHandler : IRequestHandler<CreateExpenseC
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result.Success();
+        return Result.Success(new ExpenseResponse(expense.Id));
 
     }
 }

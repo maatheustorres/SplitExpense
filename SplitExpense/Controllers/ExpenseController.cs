@@ -52,7 +52,7 @@ public class ExpenseController : ControllerBase
 
         if (result.IsSuccess)
         {
-            return Ok();
+            return Ok(result.Value);
         }
 
         return BadRequest(result.Error);

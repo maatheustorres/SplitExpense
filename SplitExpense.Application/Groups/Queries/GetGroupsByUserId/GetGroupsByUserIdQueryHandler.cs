@@ -40,7 +40,8 @@ public sealed class GetGroupsByUserIdQueryHandler : IRequestHandler<GetGroupsByU
                 Id = groupName.Id,
                 Name = groupName.Name,
                 CategoryId = groupName.Category.Value,
-                CreatedOnUtc = groupName.CreatedOnUtc
+                CreatedOnUtc = groupName.CreatedOnUtc,
+                UserGroupId = userGroup.Id
             };
 
         int totalCount = await groupResponsesQuery.CountAsync(cancellationToken);
