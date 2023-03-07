@@ -73,26 +73,37 @@ public sealed class UpdateSplitExpenseCommandHandler : IRequestHandler<UpdateSpl
 
         decimal splitValueToPay = expense.TotalExpense.Value / (usersToPay + resposibleUserByExpense);
 
-        foreach (var userIds in request.UserIds)
+        List<ExpenseUsers> expenseUser = await _expenseUserRepository.GetExpenseUserByExpenseId(expense.Id);
+
+        if (expenseUser.Any())
         {
-            ResultT<User> userResult = await _userRepository.GetByIdAsync(userIds);
-
-            if (userResult.Value is null)
+            foreach (var item in expenseUser)
             {
-                return Result.Failure(DomainErrors.User.NotFound);
+                _expenseUserRepository.Remove(item);
             }
 
-            User user = userResult.Value;
-
-            ExpenseUsers expenseUser = await _expenseUserRepository.GetByUserIdAndExpenseId(expense.Id, user.Id);
-
-            if (expenseUser is null)
+            foreach (var userIds in request.UserIds)
             {
-                return Result.Failure(DomainErrors.Expense.UserNotAdded);
-            }
+                ResultT<User> userResult = await _userRepository.GetByIdAsync(userIds);
 
-            expenseUser.Update(splitValueToPay);
+                if (userResult.Value is null)
+                {
+                    return Result.Failure(DomainErrors.User.NotFound);
+                }
+
+                User user = userResult.Value;
+
+                ExpenseUsers expenseUsers = expense.AddUsersToExpense(splitValueToPay, user, expense);
+
+                _expenseUserRepository.Insert(expenseUsers);
+
+            }
         }
+        else
+        {
+            return Result.Failure(DomainErrors.ExpenseUser.NoUser);
+        }
+
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

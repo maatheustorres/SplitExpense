@@ -8,6 +8,7 @@ public interface IExpenseUserRepository
     void InsertRange(IReadOnlyCollection<ExpenseUsers> expenseUsers);
     Task<ExpenseUsers> GetByIdAsync(Guid expenseId);
     void Update(ExpenseUsers expenseUser);
-    Task<ExpenseUsers> GetByUserIdAndExpenseId(Guid id1, Guid id2);
+    Task<List<ExpenseUsers>> GetExpenseUserByExpenseId(Guid expenseId);
     void Remove(ExpenseUsers expenseUsers);
+    void Insert(ExpenseUsers expenseUserAdd);
 }

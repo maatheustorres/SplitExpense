@@ -87,4 +87,9 @@ public static class DomainErrors
         public static Error AlreadyPaid => new("Expense.AlreadyPaid", "The expense has already been paid.");
         public static Error UserNotAdded => new("Expense.UserNotAdded", "The user(s) was/were not added to the expense.");
     }
+
+    public static class ExpenseUser
+    {
+        public static Error NoUser => new("ExpenseUser.NoUser", "No users registered at the expense");
+    }
 }

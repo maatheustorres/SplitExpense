@@ -15,7 +15,8 @@ internal sealed class ExpenseUserRepository : GenericRepository<ExpenseUsers>, I
 
     public async Task<bool> CheckIfAddedToExpense(ExpenseUsers expenseUser) => await AnyAsync(new ExpenseUsersSpecification(expenseUser));
 
-    public async Task<ExpenseUsers> GetByUserIdAndExpenseId(Guid expenseId, Guid userId)
+    public async Task<List<ExpenseUsers>> GetExpenseUserByExpenseId(Guid expenseId)
         => await DbContext.Set<ExpenseUsers>()
-                .FirstOrDefaultAsync(x => x.ExpenseId == expenseId && x.UserId == userId);
+                .Where(x => x.ExpenseId == expenseId)
+                .ToListAsync();
 }
