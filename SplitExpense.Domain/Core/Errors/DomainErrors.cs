@@ -90,6 +90,11 @@ public static class DomainErrors
 
     public static class ExpenseUser
     {
-        public static Error NoUser => new("ExpenseUser.NoUser", "No users registered at the expense");
+        public static Error NoUser => new("ExpenseUser.NoUser", "No users registered at the expense.");
+    }
+
+    public static class Debts
+    {
+        public static Error NotFound => new("Debts.NotFound", "No debt were found.");
     }
 }
