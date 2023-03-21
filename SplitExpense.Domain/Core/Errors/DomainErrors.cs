@@ -86,6 +86,7 @@ public static class DomainErrors
         public static Error AlreadyAdded => new("Expense.AlreadyAdded", "The user(s) has/have already been added to the expense.");
         public static Error AlreadyPaid => new("Expense.AlreadyPaid", "The expense has already been paid.");
         public static Error UserNotAdded => new("Expense.UserNotAdded", "The user(s) was/were not added to the expense.");
+        public static Error NoExpenseToBeReceived => new("Expense.NoExpenseToBeReceived", "No expense to be received");
     }
 
     public static class ExpenseUser

@@ -10,6 +10,7 @@ using SplitExpense.Application.SplitExpense.Commands.UpdateSplitExpense;
 using SplitExpense.Contracts.SplitExpense;
 using SplitExpense.Application.SplitExpense.Commands.RemoveUserFromExpense;
 using SplitExpense.Application.Expenses.Queries.GetDebtsByUserId;
+using SplitExpense.Application.Expenses.Queries.GetExpensesToBeReceivedByUserId;
 
 namespace SplitExpense.Controllers;
 
@@ -137,6 +138,21 @@ public class ExpenseController : ControllerBase
         var result = await _mediator.Send(query);
 
         if (result.IsSuccess)
+        {
+            return Ok(result.Value);
+        }
+
+        return BadRequest(result.Error);
+    }
+
+    [HttpGet("expenseToBeReceived/{userId}")]
+    public async Task<IActionResult> GetExpensesToBeReceived(Guid userId) 
+    {
+        var query = new GetExpensesToBeReceivedByUserIdQuery(userId);
+
+        var result = await _mediator.Send(query);
+
+        if(result.IsSuccess)
         {
             return Ok(result.Value);
         }

@@ -33,6 +33,8 @@ public sealed class GetGroupsByUserIdQueryHandler : IRequestHandler<GetGroupsByU
             from groupName in _dbContext.Set<Group>().AsNoTracking()
             join userGroup in _dbContext.Set<UserGroup>().AsNoTracking()
                 on groupName.Id equals userGroup.GroupId
+            join user in _dbContext.Set<User>().AsNoTracking()
+                on userGroup.UserId equals user.Id
             where userGroup.UserId == request.UserId
             orderby groupName.CreatedOnUtc
             select new GroupResponse
@@ -41,7 +43,9 @@ public sealed class GetGroupsByUserIdQueryHandler : IRequestHandler<GetGroupsByU
                 Name = groupName.Name,
                 CategoryId = groupName.Category.Value,
                 CreatedOnUtc = groupName.CreatedOnUtc,
-                UserGroupId = userGroup.Id
+                UserGroupId = userGroup.Id,
+                UserId = user.Id,
+                fullname = $"{user.FirstName} {user.LastName}"
             };
 
         int totalCount = await groupResponsesQuery.CountAsync(cancellationToken);
